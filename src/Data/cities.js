@@ -120,17 +120,7 @@ const Cities = [
         "population": "3073350",
         "population_proper": "3073350"
     },
-    {
-        "city": "Cawnpore",
-        "lat": "26.4725",
-        "lng": "80.3311",
-        "country": "India",
-        "temp": "IN",
-        "state": "Uttar Pradesh",
-        "condition": "",
-        "population": "2701324",
-        "population_proper": "2701324"
-    },
+
     {
         "city": "Mirzapur",
         "lat": "25.1500",

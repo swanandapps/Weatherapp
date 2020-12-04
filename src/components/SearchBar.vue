@@ -97,6 +97,18 @@ export default {
       this.FilteredCityList = this.Citylist.filter((el) =>
         el.city.includes(term)
       );
+
+      this.FilteredCityList.forEach((element) => {
+        let link =
+          "https://api.openweathermap.org/data/2.5/weather?q=" +
+          element.city +
+          "&units=metric&appid=e4c70ce6a6821649a416cb9521d5f4f8";
+
+        axios.get(link).then((response) => {
+          element.temp = response.data.main.temp.toPrecision(2);
+          element.condition = response.data.weather[0].main;
+        });
+      });
     },
   },
 
@@ -125,8 +137,6 @@ export default {
         "&lon=" +
         index.lng +
         "&exclude=minutely,alerts&units=metric&appid=e4c70ce6a6821649a416cb9521d5f4f8";
-
-      console.log(link);
 
       axios.get(link).then((response) => {
         this.DailyForecast = response.data.daily;
@@ -168,8 +178,8 @@ export default {
   align-items: center;
   justify-content: space-between;
   padding: 0.75rem 1.5rem;
-  -webkit-animation: SearchList_slideIn__2c_J- 0.5s;
-  animation: SearchList_slideIn__2c_J- 0.5s;
+  -webkit-animation: SearchList_slideIn- 0.5s;
+  animation: SearchList_slideIn- 0.5s;
 }
 .Searchinput {
   box-shadow: 0 8px 10px -3px rgba(0, 0, 0, 0.1),
@@ -190,7 +200,7 @@ export default {
   width: 40px;
   margin-left: 0.5rem;
 }
-@-webkit-keyframes SearchList_slideIn__2c_J- {
+@-webkit-keyframes SearchList_slideIn- {
   0% {
     opacity: 0;
     transform: translateY(50px);
@@ -200,7 +210,7 @@ export default {
     transform: translateY(0);
   }
 }
-@keyframes SearchList_slideIn__2c_J- {
+@keyframes SearchList_slideIn- {
   0% {
     opacity: 0;
     transform: translateY(50px);
@@ -271,3 +281,8 @@ export default {
   flex-direction: column;
 }
 </style>
+
+
+
+
+

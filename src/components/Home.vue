@@ -59,14 +59,7 @@ export default {
       navigator.geolocation.getCurrentPosition((position) => {
         let location = position.coords;
 
-        console.log("location found");
-
         this.$store.commit(CONSTANTS.SET_LOCATION, location);
-
-        console.log(
-          "Location passed to state for first time",
-          this.$store.state.CurrentLocation
-        );
 
         //Run Methods
 
@@ -81,8 +74,6 @@ export default {
 
   methods: {
     GetWeatherData(loc) {
-      console.log("API call 2");
-
       let link =
         "https://api.openweathermap.org/data/2.5/onecall?lat=" +
         loc.latitude +
@@ -93,11 +84,6 @@ export default {
       axios.get(link).then((response) => {
         this.DailyForecast = response.data.daily;
         this.HourlyForecast = response.data.hourly;
-
-        console.log(
-          "Dailyforecast data found API CALL 2 DATA",
-          this.DailyForecast
-        );
 
         //Data Formatting- Changing the temp and date as required by UI
 
@@ -123,16 +109,12 @@ export default {
 
         this.$store.commit(CONSTANTS.SET_HOURLY_DATA, this.HourlyForecast);
 
-        console.log("Data sent to state", this.$store.state);
-
         //Finally Mounting all other components
         this.mount = true;
       });
     },
 
     GetLocationData(loc) {
-      console.log("API Call 1");
-
       let link =
         "https://api.openweathermap.org/data/2.5/weather?lat=" +
         loc.latitude +
@@ -143,8 +125,6 @@ export default {
       axios.get(link).then((response) => {
         let data = response.data;
 
-        console.log("data API CALL 1", data);
-
         let sunrise = new Date(data.sys.sunrise * 1000).toLocaleTimeString();
 
         let sunset = new Date(data.sys.sunset * 1000).toLocaleTimeString();
@@ -153,8 +133,6 @@ export default {
         data.sunset = sunset;
 
         this.$store.commit(CONSTANTS.SET_WEATHER_DATA, data);
-
-        console.log("Data sent to state", this.$store.state.WeatherData);
       });
     },
   },

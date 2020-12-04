@@ -6,59 +6,59 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
 
-    CurrentLocation:{
+    CurrentLocation: {
 
-      Latitude:'18.516726',
-      Longitude:'73.856255',
+      Latitude: '18.516726',
+      Longitude: '73.856255',
     },
-  
-    WeatherData:{},
-    DailyData:{},
-    HourlyData:{}
+
+    WeatherData: {},
+    DailyData: {},
+    HourlyData: {}
 
   },
   mutations: {
 
-    SetLocation(state, loc){
+    SetLocation(state, loc) {
 
-      state.CurrentLocation=loc
+      state.CurrentLocation = loc
 
 
-     
+
     },
 
-    SetDailyData(state, loc){
+    SetDailyData(state, loc) {
 
-      state.DailyData=loc
-
-      console.log("DAILY DATA BEING SET",loc)
+      state.DailyData = loc
 
 
-     
+
+
+
     },
 
-    SetHourlyData(state, loc){
+    SetHourlyData(state, loc) {
 
-      state.HourlyData=loc
-
-      console.log("HOURLY DATA BEING SET",loc)
+      state.HourlyData = loc
 
 
-     
+
+
+
     },
-  
-  
-  
-    SetWeatherData(state,data){
 
-      state.WeatherData=data
+
+
+    SetWeatherData(state, data) {
+
+      state.WeatherData = data
 
     }
 
   },
   actions: {},
   modules: {},
-  
+
   getters: {
     GetWeatherData: state => {
       return state.WeatherData
@@ -73,6 +73,6 @@ export default new Vuex.Store({
     GetHourlyData: state => {
       return state.HourlyData
     },
-   
+
   }
 });

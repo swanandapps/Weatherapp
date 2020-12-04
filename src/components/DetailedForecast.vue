@@ -262,6 +262,8 @@ export default {
   },
 
   computed: {
+    //Getting the Necessary Data from the store
+
     GetData() {
       return this.$store.getters.GetWeatherData;
     },
@@ -279,8 +281,6 @@ export default {
 
   watch: {
     GetLocation(old) {
-      //  console.log(old,ne)
-
       this.GetForecast();
     },
     GetData(old) {
@@ -291,12 +291,12 @@ export default {
     },
 
     GetHourlyData(old) {
-      console.log("changed");
-
       this.updateGraph(old);
     },
 
     GetDailyData(old) {
+      //Get today's day data
+
       old = old[0];
 
       this.UpdateDetailedForecastData(old);
@@ -321,6 +321,8 @@ export default {
 
       old = old.slice(0, 13);
 
+      //Formatting the Hourly data and ppopulating the graph at the end
+
       old.forEach((el, i) => {
         let hour = new Date(el.dt * 1000).toLocaleTimeString();
         hour = hour.slice(0, 2);
@@ -334,6 +336,7 @@ export default {
       });
 
       //Updating the Graphs with new Data
+
       (this.series = [
         {
           data: series,
@@ -346,8 +349,6 @@ export default {
   },
 
   mounted() {
-    console.log("DetailedForecast.vue is Mounted");
-
     let TempData = this.GetDailyData[0];
 
     this.UpdateDetailedForecastData(TempData);
@@ -370,8 +371,6 @@ export default {
     });
 
     this.showGraph = true;
-
-    console.log(this.chartOptions, this.series);
   },
 };
 </script>
