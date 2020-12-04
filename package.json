@@ -3,14 +3,22 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
+    "serve": "vue-cli-service serve --fix",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "apexcharts": "^3.22.2",
+    "axios": "^0.21.0",
     "core-js": "^3.6.5",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "recharts": "^1.8.5",
     "register-service-worker": "^1.7.1",
+    "stylus-loader": "^4.3.1",
     "vue": "^2.6.11",
+    "vue-apexcharts": "^1.6.0",
+    "vue-loading-overlay": "^3.4.2",
     "vuex": "^3.4.0"
   },
   "devDependencies": {
