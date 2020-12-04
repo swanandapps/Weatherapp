@@ -406,7 +406,9 @@ export default {
 
     this.UpdateDetailedForecastData(TempData);
 
-    //Getting the data of next 13 hours
+    this.Day0Hours = 24 - new Date().getHours();
+
+    //Getting the data of next day
 
     this.HourlyData = this.GetHourlyData.slice(0, this.Day0Hours);
 
