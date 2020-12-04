@@ -45,6 +45,8 @@
 <script>
 import axios from "axios";
 
+import { CONSTANTS } from "../Data/constants";
+
 export default {
   data() {
     return {

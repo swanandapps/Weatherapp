@@ -278,40 +278,41 @@ export default {
   },
 
   watch: {
-    GetLocation(old, ne) {
+    GetLocation(old) {
       //  console.log(old,ne)
 
       this.GetForecast();
     },
-    GetData(old, ne) {
+    GetData(old) {
+      //Setup Detaileddata
       this.DeatiledData = old;
 
-      this.CurrentData.temp = old.temp;
-      this.CurrentData.pressure = old.pressure;
-      this.CurrentData.humidity = old.humidity;
-      this.CurrentData.sunrise = old.sunrise;
-      this.CurrentData.sunset = old.sunset;
+      this.UpdateDetailedForecastData(old);
     },
 
-    GetHourlyData(old, ne) {
+    GetHourlyData(old) {
       console.log("changed");
 
-      this.updateGraph(old, ne);
+      this.updateGraph(old);
     },
 
-    GetDailyData(old, ne) {
+    GetDailyData(old) {
       old = old[0];
 
-      this.CurrentData.temp = old.temp;
-      this.CurrentData.pressure = old.pressure;
-      this.CurrentData.humidity = old.humidity;
-      this.CurrentData.sunrise = old.sunrise;
-      this.CurrentData.sunset = old.sunset;
+      this.UpdateDetailedForecastData(old);
     },
   },
 
   methods: {
-    updateGraph(old, ne) {
+    UpdateDetailedForecastData(data) {
+      this.CurrentData.temp = data.temp;
+      this.CurrentData.pressure = data.pressure;
+      this.CurrentData.humidity = data.humidity;
+      this.CurrentData.sunrise = data.sunrise;
+      this.CurrentData.sunset = data.sunset;
+    },
+
+    updateGraph(old) {
       this.chartOptions.labels = [];
       this.series[0].data = [];
 
@@ -332,8 +333,7 @@ export default {
         series.push(old[i].temp.toPrecision(2));
       });
 
-      // console.log(this.chartOptions,this.series[0].data)
-
+      //Updating the Graphs with new Data
       (this.series = [
         {
           data: series,
@@ -343,83 +343,20 @@ export default {
           labels: labels,
         });
     },
-    /*
-    
-SetNewWeatherData(){
-
-
-this.DeatiledData=this.$store.state.WeatherData
-
-console.log(this.DeatiledData)
-
-
-
-
-}
-,
-
-GetDetailForecast(){
-
-this.DeatiledData=this.$store.state.WeatherData
-
-
-//this.DeatiledData.temp=this.$store.state.WeatherData.main.temp.toPrecision(2)
-
-
-
-},
-    GetForecast()
-    {
-
-                console.log('old forecast running')
-
-
-                this.Location=this.GetLocation
-
-                console.log("GetForecast Running")
-                                
-                let link="https://api.openweathermap.org/data/2.5/weather?lat="+this.Location.latitude+"&lon="+this.Location.longitude+"&units=metric&appid=e4c70ce6a6821649a416cb9521d5f4f8"
-
-    
-    console.log(link)
-      axios.get(link).then( response => {
-
-          console.log(response.data)
-       
-this.DeatiledData=response.data  
-this.DeatiledData.temp=response.data.main.temp.toPrecision(2)
-
-let sunrise=new Date(response.data.sys.sunrise*1000).toLocaleTimeString()
-let sunset=new Date(response.data.sys.sunset*1000).toLocaleTimeString()
-                   
-this.DeatiledData.sunrise=sunrise.substring(0,4)
-this.DeatiledData.sunset=sunset.substring(0,4)
-
-
-
-
-
-})
-
-    }
-
-    */
   },
 
   mounted() {
-    //this.DeatiledData={name:'swanand'}
-
     console.log("DetailedForecast.vue is Mounted");
 
     let TempData = this.GetDailyData[0];
 
-    this.CurrentData.temp = TempData.temp;
-    this.CurrentData.pressure = TempData.pressure;
-    this.CurrentData.humidity = TempData.humidity;
-    this.CurrentData.sunrise = TempData.sunrise;
-    this.CurrentData.sunset = TempData.sunset;
+    this.UpdateDetailedForecastData(TempData);
+
+    //Getting the data of next 13 hours
 
     this.HourlyData = this.GetHourlyData.slice(0, 13);
+
+    //Formatting the Data Accordingly and populating the Graph Data
 
     this.HourlyData.forEach((el, i) => {
       let hour = new Date(el.dt * 1000).toLocaleTimeString();
@@ -440,26 +377,6 @@ this.DeatiledData.sunset=sunset.substring(0,4)
 </script>
 
 <style scoped>
-@-webkit-keyframes SearchList_slideIn__2c_J- {
-  0% {
-    opacity: 0;
-    transform: translateY(50px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-@keyframes SearchList_slideIn__2c_J- {
-  0% {
-    opacity: 0;
-    transform: translateY(50px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
 .DetailedForecastSection {
   border-radius: 8px;
   box-shadow: 0 8px 10px -3px rgba(0, 0, 0, 0.1),
