@@ -21,8 +21,8 @@
       </button>
       <section v-if="this.showDropdown" class="DropdownContainer">
         <div
-          @click="SelectLocation(item)"
-          v-for="item in this.FilteredCityList"
+          @click="SelectLocation(item, index)"
+          v-for="(item, index) in this.FilteredCityList"
           :key="item"
           class="SearchList"
         >
@@ -117,25 +117,25 @@ export default {
   },
 
   methods: {
-    SelectLocation: function (index) {
+    SelectLocation: function (item, index) {
       let location = {
-        Latitude: index.lat,
-        Longitude: index.lng,
+        Latitude: item.lat,
+        Longitude: item.lng,
       };
 
-      this.CurrentCity = index.city + ", " + index.state;
+      this.CurrentCity = item.city + ", " + item.state;
 
       this.$store.commit(CONSTANTS.SET_LOCATION, location);
 
       this.showDropdown = true;
 
-      this.City = index.city + ", " + index.state;
+      this.City = item.city + ", " + item.state;
 
       let link =
         "https://api.openweathermap.org/data/2.5/onecall?lat=" +
-        index.lat +
+        item.lat +
         "&lon=" +
-        index.lng +
+        item.lng +
         "&exclude=minutely,alerts&units=metric&appid=e4c70ce6a6821649a416cb9521d5f4f8";
 
       axios.get(link).then((response) => {

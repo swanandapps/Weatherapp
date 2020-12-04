@@ -14,7 +14,8 @@ export default new Vuex.Store({
 
     WeatherData: {},
     DailyData: {},
-    HourlyData: {}
+    HourlyData: {},
+    CurrentDay: 0
 
   },
   mutations: {
@@ -72,6 +73,9 @@ export default new Vuex.Store({
     },
     GetHourlyData: state => {
       return state.HourlyData
+    },
+    GetCurrentDay: state => {
+      return state.CurrentDay
     },
 
   }

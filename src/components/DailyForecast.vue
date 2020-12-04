@@ -2,8 +2,8 @@
   <div>
     <section class="DailyForecastSection">
       <div
-        @click="ShowDetailedForecast(forecast)"
-        v-for="forecast in GetDailyData"
+        @click="ShowDetailedForecast(forecast, index)"
+        v-for="(forecast, index) in GetDailyData"
         :key="forecast"
         class="DailyForecastDiv"
       >
@@ -71,8 +71,9 @@ export default {
   },
 
   methods: {
-    ShowDetailedForecast(forecast) {
+    ShowDetailedForecast(forecast, index) {
       this.$store.state.WeatherData = forecast;
+      this.$store.state.CurrentDay = index;
     },
   },
 };
@@ -80,26 +81,6 @@ export default {
 
 
 <style scoped>
-@-webkit-keyframes SearchList_slideIn__2c_J- {
-  0% {
-    opacity: 0;
-    transform: translateY(50px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-@keyframes SearchList_slideIn__2c_J- {
-  0% {
-    opacity: 0;
-    transform: translateY(50px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
 .DailyForecastSection {
   display: flex;
   font-size: 0.95rem;

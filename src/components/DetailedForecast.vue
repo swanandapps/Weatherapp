@@ -258,6 +258,9 @@ export default {
       Location: {},
       Data: {},
       HourlyData: {},
+      Day0Hours: 0,
+      Day1Hours: 0,
+      Day2Hours: 0,
     };
   },
 
@@ -277,6 +280,9 @@ export default {
     GetHourlyData() {
       return this.$store.getters.GetHourlyData;
     },
+    GetCurrentDay() {
+      return this.$store.getters.GetCurrentDay;
+    },
   },
 
   watch: {
@@ -285,13 +291,60 @@ export default {
     },
     GetData(old) {
       //Setup Detaileddata
-      this.DeatiledData = old;
+
+      var day = this.GetCurrentDay;
+
+      console.log(day);
+
+      var labels2 = [];
+      var series2 = [];
+
+      if (day == 0) {
+        console.log("day0");
+        this.Day0Hours = 24 - new Date().getHours();
+        const HourlyData = this.GetHourlyData;
+        var Hourdata = HourlyData.slice(0, this.Day0Hours);
+      } else if (day == 1) {
+        const HourlyData = this.GetHourlyData;
+        this.Day2Hours = this.Day0Hours + 25;
+        var Hourdata = HourlyData.slice(this.Day0Hours, this.Day2Hours);
+      } else if (day == 2) {
+        const HourlyData = this.GetHourlyData;
+        var Hourdata = HourlyData.slice(30, 47);
+      }
+      //  old = old.slice(24, 48);
+
+      console.log(Hourdata);
+
+      Hourdata.forEach((el, i) => {
+        let hour = new Date(el.dt * 1000).toLocaleTimeString();
+
+        hour = hour.replace(":", "  ");
+        hour = hour.slice(0, 3);
+
+        Hourdata[i].hour = hour;
+
+        labels2.push(hour);
+
+        series2.push(Hourdata[i].temp.toPrecision(2));
+      });
+
+      //Updating the Graphs with new Data
+
+      (this.series = [
+        {
+          data: series2,
+        },
+      ]),
+        (this.chartOptions = {
+          labels: labels2,
+        });
 
       this.UpdateDetailedForecastData(old);
     },
 
     GetHourlyData(old) {
-      this.updateGraph(old);
+      // this.updateGraph(old);
     },
 
     GetDailyData(old) {
@@ -355,7 +408,7 @@ export default {
 
     //Getting the data of next 13 hours
 
-    this.HourlyData = this.GetHourlyData.slice(0, 13);
+    this.HourlyData = this.GetHourlyData.slice(0, this.Day0Hours);
 
     //Formatting the Data Accordingly and populating the Graph Data
 
