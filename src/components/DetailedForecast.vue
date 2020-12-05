@@ -204,11 +204,25 @@ export default {
     return {
       series: [
         {
+          name: "Temprature",
           data: [],
         },
       ],
       chartOptions: {
         chart: {
+          animations: {
+            enabled: true,
+            easing: "easeinout",
+            speed: 1,
+            animateGradually: {
+              enabled: true,
+              delay: 150,
+            },
+            dynamicAnimation: {
+              enabled: true,
+              speed: 350,
+            },
+          },
           type: "area",
           height: 350,
           zoom: {
@@ -216,7 +230,7 @@ export default {
           },
         },
         dataLabels: {
-          enabled: true,
+          enabled: false,
         },
         stroke: {
           curve: "smooth",
@@ -226,9 +240,29 @@ export default {
 
         yaxis: {
           type: "datetime",
+          labels: {
+            show: false,
+          },
         },
         legend: {
           horizontalAlign: "left",
+        },
+
+        tooltip: {
+          enabled: true,
+          enabledOnSeries: undefined,
+          shared: true,
+          followCursor: false,
+          intersect: false,
+          inverseOrder: false,
+          custom: undefined,
+          fillSeriesColor: false,
+
+          y: {
+            formatter: (value) => {
+              return value + "°C";
+            },
+          },
         },
       },
 

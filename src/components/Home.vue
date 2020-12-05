@@ -11,9 +11,11 @@
       color="#00a6fa"
     ></loading>
 
-    <SearchBar />
-    <daily-forecast v-if="this.mount"></daily-forecast>
-    <detailed-forecast v-if="this.mount"></detailed-forecast>
+    <div v-if="this.show">
+      <SearchBar />
+      <daily-forecast v-if="this.mount"></daily-forecast>
+      <detailed-forecast v-if="this.mount"></detailed-forecast>
+    </div>
   </div>
 </template>
 
@@ -46,29 +48,35 @@ export default {
       mount: false,
       DailyForecast: {},
       HourlyForecast: {},
+      show: false,
+      location: {},
+      locfound: false,
     };
   },
 
   mounted() {
-    setTimeout(() => {
-      this.isLoading = false;
-    }, 1500);
+    {
+      setTimeout(() => {
+        this.isLoading = false;
+        this.show = true;
+      }, 1500);
 
-    //Getting the User Location
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        let location = position.coords;
+      //Getting the User Location
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition((position) => {
+          this.location = position.coords;
+          this.locfound = true;
 
-        this.$store.commit(CONSTANTS.SET_LOCATION, location);
+          this.$store.commit(CONSTANTS.SET_LOCATION, this.location);
+          this.GetLocationData(this.location);
 
-        //Run Methods
+          this.GetWeatherData(this.location);
 
-        this.GetLocationData(location);
-
-        this.GetWeatherData(location);
-      });
-    } else {
-      this.error = "Geolocation is not supported.";
+          //Run Methods
+        });
+      } else {
+        this.error = "Geolocation is not supported.";
+      }
     }
   },
 
